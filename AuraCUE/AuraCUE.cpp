@@ -6,42 +6,65 @@
 // This MUST be true for SDK operations to proceed
 bool bIsSdkInitialized = false;
 
+// Specifically for AURA
+bool bIsAuraInitialized = false;
+
+// Specifically for CUE
+bool bIsCueInitialized = false;
+
 // First bool is CUE, second is AURA
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseAura)
 {
-
-	bool bCueIsInitialized;
-	bool bAuraIsInitialized;
-
-	CorsairPerformProtocolHandshake();
-	// Throws CorsairHandshakeException if GetLastError isn't successful
-	if (CorsairGetLastError() != CE_Success)
+	if (bShouldUseCorsair)
 	{
-		// Error thrown and bool remains/reset to false
-		bCueIsInitialized = false;
-	}
-	else
-	{
-		// Handshake was a success, CUE is initialised
-		bCueIsInitialized = true;
+		CorsairPerformProtocolHandshake();
+		// Throws CorsairHandshakeException if GetLastError isn't successful
+		if (CorsairGetLastError() != CE_Success)
+		{
+			// Error thrown and bool remains/reset to false
+			bIsCueInitialized = false;
+		}
+		else
+		{
+			// Handshake was a success, CUE is initialised
+			bIsCueInitialized = true;
+		}
 	}
 
-	bool bAreAuraLedsOn = RogAuraService::Instance()->QuerySwitchState();
+	if (bShouldUseAura)
+	{
+		std::vector<std::wstring> auraDevices;
+		int numberOfAuraDevices = sizeof(RogAuraService::Instance()->QueryDevceNames(auraDevices));
+		if (numberOfAuraDevices < 2)
+		{
+			std::cout << "No Aura devices detected, not initialising.\n";
+		}
+		else
+		{
+			bool bAuraLedsAreOn = RogAuraService::Instance()->QuerySwitchState();
+			if (bAuraLedsAreOn)
+			{
+				bIsAuraInitialized = true;
+			}
+			else
+			{
+				RogAuraService::Instance()->SetSwitchState(true);
+				do
+				{
+					std::cout << "AURA LEDs are off, switching on...\n";
+				}
+				while (!bAuraLedsAreOn);
+				bIsAuraInitialized = true;
+			}
+		}
+	}
 
-	if (bAreAuraLedsOn)
-	{
-		bAuraIsInitialized = true;
-	}
-	else
-	{
-		std::cout << "Aura LEDs are off, turning on...";
-		RogAuraService::Instance()->SetSwitchState(true);
-		bAuraIsInitialized = true;
-	}
-	if (bCueIsInitialized && bAreAuraLedsOn)
+	if (bIsCueInitialized == bShouldUseCorsair && bIsAuraInitialized == bShouldUseAura)
 	{
 		bIsSdkInitialized = true;
 	}
+
+	ListTest();
 }
 
 AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExclusive)
@@ -61,11 +84,33 @@ AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExc
 	{
 		std::cerr << "Initialize() MUST be run for SDK operations to be used";
 	}
+
+	std::cout << CorsairGetLastError << std::endl;
 }
 
-AURACUE_API bool AuraCUE::Functions::IsCueInitialized()
+AURACUE_API bool AuraCUE::Functions::IsSdkInitialized(bool bShouldPrintToConsole)
 {
-	return bIsSdkInitialized;
+	if (bIsSdkInitialized)
+	{
+		std::cout << "Specified SDKs were successfully initialised.\n" << bIsSdkInitialized << std::endl;
+		return bIsSdkInitialized;
+	}
+	else
+	{
+		if (bShouldPrintToConsole)
+		{
+			std::cout << "AURA: " << bIsAuraInitialized << std::endl << "CUE: " << bIsCueInitialized << std::endl;
+		}
+	}
+
+	if (bIsCueInitialized || bIsAuraInitialized)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsole)
@@ -73,12 +118,9 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 	if (bIsSdkInitialized)
 	{
 		int numberOfDevices = 0;
-		std::vector<std::wstring> auraDevices;
-		RogAuraService::Instance()->QueryDevceNames(auraDevices);
-		int numberOfAuraDevices = sizeof(auraDevices);
-		numberOfDevices += numberOfAuraDevices;
-		int numberOfCueDevices = CorsairGetDeviceCount();
-		numberOfDevices += numberOfCueDevices;
+		int numberOfAuraDevices = 0;
+		int numberOfCueDevices = 0;
+
 		if (bShouldPrintToConsole)
 		{
 			std::cout << "Number of AURA devices: " << numberOfAuraDevices << std::endl
@@ -90,4 +132,15 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 	{
 		std::cerr << "Initialize() MUST be run for SDK operations to proceed.\n";
 	}
+}
+
+AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueModelNames()
+{
+	std::vector<const char*> cueDevices;
+	int numberOfCueDevices = CorsairGetDeviceCount();
+	for (size_t i = 0; i < numberOfCueDevices; i++)
+	{
+		cueDevices.push_back(CorsairGetDeviceInfo(i)->model);
+	}
+	return cueDevices;
 }

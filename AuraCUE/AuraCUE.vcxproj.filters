@@ -24,21 +24,24 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\RGB SDKs\RogAuraService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="AuraCUE.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AuraCUE.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Downloads\AuraSDK\Aura SDK sample code\Sample_code_to_AURA_SDK\RogAuraService.cpp">
+    <ClCompile Include="AuraCUE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RGB SDKs\RogAuraService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
