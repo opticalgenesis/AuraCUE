@@ -12,6 +12,7 @@ bool bIsAuraInitialized = false;
 // Specifically for CUE
 bool bIsCueInitialized = false;
 
+
 // First bool is CUE, second is AURA
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseAura)
 {
@@ -63,8 +64,6 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 	{
 		bIsSdkInitialized = true;
 	}
-
-	ListTest();
 }
 
 AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExclusive)
@@ -132,15 +131,4 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 	{
 		std::cerr << "Initialize() MUST be run for SDK operations to proceed.\n";
 	}
-}
-
-AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueModelNames()
-{
-	std::vector<const char*> cueDevices;
-	int numberOfCueDevices = CorsairGetDeviceCount();
-	for (size_t i = 0; i < numberOfCueDevices; i++)
-	{
-		cueDevices.push_back(CorsairGetDeviceInfo(i)->model);
-	}
-	return cueDevices;
 }

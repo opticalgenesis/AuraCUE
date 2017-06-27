@@ -10,7 +10,7 @@
 
 // TODO: reference additional headers your program requires here
 #include "AuraCUE.h"
-#include <list>
+#include <vector>
 #include <iostream>
 #include <CUESDK.h>
 #include <string>

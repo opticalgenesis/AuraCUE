@@ -1,8 +1,3 @@
-﻿  stdafx.cpp
-  DllTest.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(25): error C2039: 'vector': is not a member of 'std'
-  c:\users\jfelt\documents\visual studio 2017\projects\auracue\dlltest\predefined c++ types (compiler internal)(208): note: see declaration of 'std'
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(25): error C2143: syntax error: missing ';' before '<'
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(25): error C2071: 'AuraCUE::Functions::vector': illegal storage class
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(25): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(25): error C2238: unexpected token(s) preceding ';'
+﻿  DllTest.cpp
+  DllTest.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\DllTest.exe
+  DllTest.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\DllTest.pdb (Partial PDB)
