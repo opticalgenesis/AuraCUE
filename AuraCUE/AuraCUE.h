@@ -6,7 +6,9 @@
 #define AURACUE_API __declspec(dllimport)
 #endif
 
-#include "stdafx.h"
+
+// Must be here, for some reason
+#include <vector>
 
 namespace AuraCUE
 {
@@ -23,6 +25,6 @@ namespace AuraCUE
 		AURACUE_API int NumberOfRgbDevices(bool bShouldPrintToConsole);
 		// Returns List Of Connected CUE Devices
 		// TODO -- 27/06/2017 -- Implement a method that returns total list of both SDK devices
-		AURACUE_API std::vector<const char*> GetCueDeviceModels();
+		AURACUE_API std::vector<const char*> GetCueDeviceModels(bool bShouldPrintToConsole);
 	};
 }

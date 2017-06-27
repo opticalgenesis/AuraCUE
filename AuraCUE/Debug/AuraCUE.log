@@ -1,7 +1,7 @@
-﻿  stdafx.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(26): error C2039: 'vector': is not a member of 'std'
-  c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\predefined c++ types (compiler internal)(208): note: see declaration of 'std'
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(26): error C2143: syntax error: missing ';' before '<'
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(26): error C2071: 'AuraCUE::Functions::vector': illegal storage class
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(26): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(26): error C2238: unexpected token(s) preceding ';'
+﻿  AuraCUE.cpp
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.cpp(140): warning C4018: '<': signed/unsigned mismatch
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.cpp(134): warning C4715: 'AuraCUE::Functions::NumberOfRgbDevices': not all control paths return a value
+  dllmain.cpp
+     Creating library C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.lib and object C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.exp
+  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
+  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)

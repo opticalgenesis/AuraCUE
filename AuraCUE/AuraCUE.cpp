@@ -132,3 +132,16 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 		std::cerr << "Initialize() MUST be run for SDK operations to proceed.\n";
 	}
 }
+
+AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool bShouldPrintToConsole)
+{
+	std::vector<const char*> cueDevices;
+	int numberOfCueDevices = CorsairGetDeviceCount();
+	for (size_t i = 0; i < numberOfCueDevices; i++)
+	{
+		const char* deviceModel = CorsairGetDeviceInfo(i)->model;
+		cueDevices.push_back(deviceModel);
+	}
+
+	return cueDevices;
+}
