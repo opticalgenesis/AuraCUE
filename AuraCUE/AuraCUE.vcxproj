@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AURACUE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\AuraCUE;C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\RGB SDKs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%USERPROFILE%\Documents\Visual Studio 2017\Projects\AuraCUE\AuraCUE;%USERPROFILE%\Documents\Visual Studio 2017\Projects\AuraCUE\RGB SDKs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

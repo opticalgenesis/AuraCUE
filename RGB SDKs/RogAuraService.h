@@ -33,3 +33,24 @@ private:
 	static RogAuraService* m_instance;
 };
 
+namespace RogEnums
+{	
+	enum AuraDeviceType
+	{
+		ADT_KEYBOARD,
+		ADT_MOUSE,
+		ADT_MOBO,
+		ADT_GPU,
+		ADT_SLI,
+		ADT_DESKTOP
+	};
+}
+
+namespace RogStructs
+{
+	struct AuraDevice
+	{
+		std::string deviceName;
+		RogEnums::AuraDeviceType deviceType;
+	};
+}

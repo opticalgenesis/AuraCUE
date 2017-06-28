@@ -1,7 +1,6 @@
-﻿  AuraCUE.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.cpp(140): warning C4018: '<': signed/unsigned mismatch
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.cpp(134): warning C4715: 'AuraCUE::Functions::NumberOfRgbDevices': not all control paths return a value
-  dllmain.cpp
-     Creating library C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.lib and object C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.exp
-  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
-  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)
+﻿  stdafx.cpp
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(23): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2653: 'RogStructs': is not a class or namespace name
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C3646: 'GetAuraDevice': unknown override specifier
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2062: type 'int' unexpected
+c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2238: unexpected token(s) preceding ';'
