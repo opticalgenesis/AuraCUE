@@ -3,6 +3,34 @@
 #include <string>
 #include <vector>
 
+namespace RogData
+{
+	class Enums
+	{
+	public:
+		enum AuraDeviceType
+		{
+			ADT_INVALID,
+			ADT_KEYBOARD,
+			ADT_MOUSE,
+			ADT_MOBO,
+			ADT_GPU,
+			ADT_SLI,
+			ADT_DESKTOP,
+			ADT_MIC
+		};
+	};
+
+	class Structs
+	{
+	public:
+		struct AuraDevice
+		{
+			std::wstring modelName;
+			Enums::AuraDeviceType deviceType;
+		};
+	};
+}
 
 class RogAuraService
 {
@@ -32,25 +60,3 @@ private:
 
 	static RogAuraService* m_instance;
 };
-
-namespace RogEnums
-{	
-	enum AuraDeviceType
-	{
-		ADT_KEYBOARD,
-		ADT_MOUSE,
-		ADT_MOBO,
-		ADT_GPU,
-		ADT_SLI,
-		ADT_DESKTOP
-	};
-}
-
-namespace RogStructs
-{
-	struct AuraDevice
-	{
-		std::string deviceName;
-		RogEnums::AuraDeviceType deviceType;
-	};
-}

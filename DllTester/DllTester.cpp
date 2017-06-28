@@ -5,7 +5,8 @@ using namespace AuraCUE;
 int main()
 {
 	Functions funcs;
-	funcs.Initialize(true, false);
+	funcs.Initialize(true, true);
+	funcs.GetAuraDevice(0);
     return 1;
 }
 

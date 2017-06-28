@@ -8,6 +8,7 @@
 
 
 // Must be here, for some reason
+#include "RogAuraService.h"
 #include <vector>
 
 namespace AuraCUE
@@ -43,6 +44,6 @@ namespace AuraCUE
 		// Returns Number of CUE Devices connected
 		AURACUE_API int GetNumberOfCueDevices();
 		// Returns Connected Aura Sync Device at index
-		AURACUE_API RogStructs::AuraDevice GetAuraDevice(int deviceIndex);
+		AURACUE_API RogData::Structs::AuraDevice GetAuraDevice(int deviceIndex);
 	};
 }

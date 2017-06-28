@@ -1,6 +1,3 @@
-﻿  stdafx.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(23): warning C4091: '__declspec(dllimport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2653: 'RogStructs': is not a class or namespace name
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C3646: 'GetAuraDevice': unknown override specifier
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2062: type 'int' unexpected
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(46): error C2238: unexpected token(s) preceding ';'
+﻿  DllTester.cpp
+  DllTester.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\DllTester.exe
+  DllTester.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\DllTester.pdb (Partial PDB)

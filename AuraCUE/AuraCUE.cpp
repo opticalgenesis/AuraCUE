@@ -13,15 +13,6 @@ bool bIsAuraInitialized = false;
 // Specifically for CUE
 bool bIsCueInitialized = false;
 
-std::string GetCueError(CorsairError err);
-
-std::string GetCueDeviceModel(int deviceIndex);
-std::string GetCueDeviceType(int deviceIndex);
-std::string GetCueDevicePhysicalLayout(int deviceIndex);
-std::string GetCueDeviceLogicalLayout(int deviceIndex);
-int GetCueDeviceCapsMask(int deviceIndex);
-
-RogEnums::AuraDeviceType GetAuraDeviceModel(std::wstring modelName);
 
 // First bool is CUE, second is AURA
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseAura)
@@ -45,8 +36,9 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 	if (bShouldUseAura)
 	{
 		std::vector<std::wstring> auraDevices;
-		int numberOfAuraDevices = sizeof(RogAuraService::Instance()->QueryDevceNames(auraDevices));
-		if (numberOfAuraDevices < 2)
+		RogAuraService::Instance()->QueryDevceNames(auraDevices);
+		int numberOfAuraDevices = sizeof(auraDevices);
+		if (numberOfAuraDevices < 1)
 		{
 			std::cout << "No Aura devices detected, not initialising.\n";
 		}
@@ -122,6 +114,7 @@ AURACUE_API bool AuraCUE::Functions::IsSdkInitialized(bool bShouldPrintToConsole
 	}
 }
 
+// TODO -- 28/06/2017 -- sort this out
 AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsole)
 {
 	if (bIsSdkInitialized)
@@ -141,13 +134,14 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 	{
 		std::cerr << "Initialize() MUST be run for SDK operations to proceed.\n";
 	}
+	return 0;
 }
 
 AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool bShouldPrintToConsole)
 {
 	std::vector<const char*> cueDevices;
 	int numberOfCueDevices = CorsairGetDeviceCount();
-	for (size_t i = 0; i < numberOfCueDevices; i++)
+	for (int i = 0; i < numberOfCueDevices; i++)
 	{
 		const char* deviceModel = CorsairGetDeviceInfo(i)->model;
 		cueDevices.push_back(deviceModel);
@@ -185,24 +179,107 @@ AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 	{
 		return CorsairGetDeviceCount();
 	}
+	return 0;
 }
 
-AURACUE_API RogStructs::AuraDevice AuraCUE::Functions::GetAuraDevice(int deviceIndex)
+AURACUE_API RogData::Structs::AuraDevice AuraCUE::Functions::GetAuraDevice(int deviceIndex)
 {
+	RogData::Structs::AuraDevice device;
 	if (bIsAuraInitialized)
 	{
-		std::vector<std::wstring> devices;
-		RogAuraService::Instance()->QueryDevceNames(devices);
-
-		RogStructs::AuraDevice auraDevice;
-
+		std::vector<std::wstring> auraDevices;
+		RogAuraService::Instance()->QueryDevceNames(auraDevices);
+		device.modelName = auraDevices[deviceIndex];
+		device.deviceType = GetAuraDeviceType(device.modelName);
+		return device;
+	}
+	else
+	{
+		std::cerr << "Aura SDK not initialised.\n";
 	}
 }
 
-// I fucking hate this method
-RogEnums::AuraDeviceType GetAuraDeviceModel(std::wstring modelName)
-{
 
+// Fuck this method
+RogData::Enums::AuraDeviceType GetAuraDeviceType(std::wstring modelName)
+{
+	std::transform(modelName.begin(), modelName.end(), modelName.begin(), ::tolower);
+	if (modelName.find(L"maximus")) 
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"crosshair"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"z270"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"h270"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"b250"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"x99"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"z170"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"x370"))
+	{
+		return RogData::Enums::ADT_MOBO;
+	}
+	else if (modelName.find(L"gtx"))
+	{
+		return RogData::Enums::ADT_GPU;
+	}
+	else if (modelName.find(L"rx"))
+	{
+		return RogData::Enums::ADT_GPU;
+	}
+	else if (modelName.find(L"sli"))
+	{
+		return RogData::Enums::ADT_SLI;
+	}
+	else if (modelName.find(L"gr8"))
+	{
+		return RogData::Enums::ADT_DESKTOP;
+	}
+	else if (modelName.find(L"claymore"))
+	{
+		return RogData::Enums::ADT_KEYBOARD;
+	}
+	else if (modelName.find(L"spatha"))
+	{
+		return RogData::Enums::ADT_MOUSE;
+	}
+	else if (modelName.find(L"gladius"))
+	{
+		return RogData::Enums::ADT_MOUSE;
+	}
+	else if (modelName.find(L"evolve"))
+	{
+		return RogData::Enums::ADT_MOUSE;
+	}
+	else if (modelName.find(L"impact"))
+	{
+		return RogData::Enums::ADT_MOUSE;
+	}
+	else if (modelName.find(L"magnus"))
+	{
+		return RogData::Enums::ADT_MIC;
+	}
+	else
+	{
+		return RogData::Enums::ADT_INVALID;
+	}
 }
 
 // Non exposed function
@@ -275,6 +352,7 @@ std::string GetCueDevicePhysicalLayout(int deviceIndex)
 	default:
 		break;
 	}
+	return "";
 }
 
 // Non exposed function
@@ -344,6 +422,7 @@ std::string GetCueDeviceLogicalLayout(int deviceIndex)
 	default:
 		break;
 	}
+	return "";
 }
 
 // Non exposed function
