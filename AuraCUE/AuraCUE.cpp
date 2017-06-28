@@ -38,7 +38,7 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 	{
 		std::vector<std::wstring> auraDevices;
 		RogAuraService::Instance()->QueryDeviceNames(auraDevices);
-		int numberOfAuraDevices = sizeof(auraDevices);
+		int numberOfAuraDevices = auraDevices.size();
 		if (numberOfAuraDevices < 1)
 		{
 			std::cout << "No Aura devices detected, not initialising.\n";

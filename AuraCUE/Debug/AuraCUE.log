@@ -1,3 +1,5 @@
 ﻿  AuraCUE.cpp
-  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
-  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)
+  LINK : C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll not found or not built by the last incremental link; performing full link
+     Creating library C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.lib and object C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.exp
+  AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
+  AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)
