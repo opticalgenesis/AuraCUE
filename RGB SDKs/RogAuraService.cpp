@@ -79,7 +79,7 @@ RogAuraService::~RogAuraService()
 {
 }
 
-bool RogAuraService::QueryDevceNames(std::vector<std::wstring>& deviceNameList)
+bool RogAuraService::QueryDeviceNames(std::vector<std::wstring>& deviceNameList)
 {
 	bool _result = false;
 

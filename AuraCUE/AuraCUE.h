@@ -11,8 +11,49 @@
 #include "RogAuraService.h"
 #include <vector>
 
+
 namespace AuraCUE
 {
+
+	// AuraDeviceType Enum
+	AURACUE_API enum AuraDeviceType
+	{
+		ADT_INVALID,
+		ADT_KEYBOARD,
+		ADT_MOUSE,
+		ADT_MOBO,
+		ADT_GPU,
+		ADT_SLI,
+		ADT_DESKTOP,
+		ADT_MIC
+	};
+
+	AURACUE_API enum RgbDeviceType
+	{
+		RDT_INVALID,
+		RDT_KEYBOARD,
+		RDT_MOUSE,
+		RDT_HEADSET,
+		RDT_MOBO,
+		RDT_GPU,
+		RDT_SLI,
+		RDT_DESKTOP,
+		RDT_MIC
+	};
+
+	AURACUE_API	enum RgbDeviceBrand
+	{
+		RDB_ASUS,
+		RDB_CORSAIR
+	};
+
+	// AuraDevice Struct
+	AURACUE_API struct AuraDevice
+	{
+		std::wstring modelName;
+		AuraDeviceType deviceType;
+	};
+
 	// CueDevice Struct
 	AURACUE_API struct CueDevice
 	{
@@ -22,6 +63,14 @@ namespace AuraCUE
 		std::string logicalLayout;
 		int capsMask;
 	};
+
+	AURACUE_API struct RgbDevice
+	{
+		std::wstring deviceName;
+		RgbDeviceType deviceType;
+		RgbDeviceBrand deviceBrand;
+	};
+
 
 	class Functions
 	{
@@ -44,6 +93,10 @@ namespace AuraCUE
 		// Returns Number of CUE Devices connected
 		AURACUE_API int GetNumberOfCueDevices();
 		// Returns Connected Aura Sync Device at index
-		AURACUE_API RogData::Structs::AuraDevice GetAuraDevice(int deviceIndex);
+		AURACUE_API AuraDevice GetAuraDevice(int deviceIndex);
+		// Returns All Connected Aura Sync Devices
+		AURACUE_API std::vector<AuraDevice> GetAuraDevices();
+		// Normalises all RGB Devices
+		AURACUE_API std::vector<RgbDevice> GetNormalizedDevices();
 	};
 }

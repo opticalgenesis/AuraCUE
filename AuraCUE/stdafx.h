@@ -13,6 +13,8 @@
 #include <iostream>
 #include <CUESDK.h>
 #include <string>
+#include <locale>
+#include <codecvt>
 #include <algorithm>
 #include <atlbase.h>
 #include <exception>
@@ -30,4 +32,9 @@ std::string GetCueDevicePhysicalLayout(int deviceIndex);
 std::string GetCueDeviceLogicalLayout(int deviceIndex);
 int GetCueDeviceCapsMask(int deviceIndex);
 
-RogData::Enums::AuraDeviceType GetAuraDeviceType(std::wstring);
+AuraCUE::AuraDeviceType GetAuraDeviceType(std::wstring);
+
+std::wstring StringToWstring(std::string input);
+
+AuraCUE::RgbDeviceType GetAuraRgbDeviceType(AuraCUE::AuraDeviceType input);
+AuraCUE::RgbDeviceType GetCueDeviceRgbType(std::string input);

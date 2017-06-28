@@ -36,7 +36,7 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 	if (bShouldUseAura)
 	{
 		std::vector<std::wstring> auraDevices;
-		RogAuraService::Instance()->QueryDevceNames(auraDevices);
+		RogAuraService::Instance()->QueryDeviceNames(auraDevices);
 		int numberOfAuraDevices = sizeof(auraDevices);
 		if (numberOfAuraDevices < 1)
 		{
@@ -182,13 +182,13 @@ AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 	return 0;
 }
 
-AURACUE_API RogData::Structs::AuraDevice AuraCUE::Functions::GetAuraDevice(int deviceIndex)
+AURACUE_API AuraCUE::AuraDevice AuraCUE::Functions::GetAuraDevice(int deviceIndex)
 {
-	RogData::Structs::AuraDevice device;
+	AuraCUE::AuraDevice device;
 	if (bIsAuraInitialized)
 	{
 		std::vector<std::wstring> auraDevices;
-		RogAuraService::Instance()->QueryDevceNames(auraDevices);
+		RogAuraService::Instance()->QueryDeviceNames(auraDevices);
 		device.modelName = auraDevices[deviceIndex];
 		device.deviceType = GetAuraDeviceType(device.modelName);
 		return device;
@@ -197,88 +197,193 @@ AURACUE_API RogData::Structs::AuraDevice AuraCUE::Functions::GetAuraDevice(int d
 	{
 		std::cerr << "Aura SDK not initialised.\n";
 	}
+	return device;
 }
 
+AURACUE_API std::vector<AuraCUE::AuraDevice> AuraCUE::Functions::GetAuraDevices()
+{
+	std::vector<AuraCUE::AuraDevice> devicestoReturn;
+	std::vector<std::wstring> devices;
+	RogAuraService::Instance()->QueryDeviceNames(devices);
+	int numberOfAuraDevices = devices.size();
+	for (int i = 0; i < numberOfAuraDevices; i++)
+	{
+		AuraCUE::AuraDevice device = GetAuraDevice(i);
+		devicestoReturn.push_back(device);
+	}
+	return devicestoReturn;
+}
+
+AURACUE_API std::vector<AuraCUE::RgbDevice> AuraCUE::Functions::GetNormalizedDevices()
+{
+	std::vector<AuraCUE::RgbDevice> rgbDevices;
+	std::vector<AuraCUE::AuraDevice> auraDevices = GetAuraDevices();
+	std::vector<AuraCUE::CueDevice> cueDevices = GetCueDevices();
+
+	for (size_t i = 0; i < auraDevices.size(); i++)
+	{
+		RgbDevice device;
+		std::wstring modelName = auraDevices[i].modelName;
+		RgbDeviceType deviceType = GetAuraRgbDeviceType(auraDevices[i].deviceType);
+		RgbDeviceBrand deviceBrand = AuraCUE::RDB_ASUS;
+		device.deviceName = modelName;
+		device.deviceType = deviceType;
+		device.deviceBrand = deviceBrand;
+		rgbDevices.push_back(device);
+	}
+
+	for (size_t j = 0; j < cueDevices.size(); j++)
+	{
+		RgbDevice device;
+		std::wstring modelName = StringToWstring(cueDevices[j].deviceModel);
+		RgbDeviceType deviceType = GetCueDeviceRgbType(cueDevices[j].deviceType);
+		RgbDeviceBrand deviceBrand = AuraCUE::RDB_CORSAIR;
+		device.deviceName = modelName;
+		device.deviceType = deviceType;
+		device.deviceBrand = deviceBrand;
+		rgbDevices.push_back(device);
+	}
+
+	return rgbDevices;
+}
+
+// Non exposed method
+// Returns RDT for ADT
+AuraCUE::RgbDeviceType GetAuraRgbDeviceType(AuraCUE::AuraDeviceType input)
+{
+	switch (input)
+	{
+	case AuraCUE::ADT_INVALID:
+		return AuraCUE::RDT_INVALID;
+		break;
+	case AuraCUE::ADT_KEYBOARD:
+		return AuraCUE::RDT_KEYBOARD;
+		break;
+	case AuraCUE::ADT_MOUSE:
+		return AuraCUE::RDT_MOUSE;
+		break;
+	case AuraCUE::ADT_MOBO:
+		return AuraCUE::RDT_MOBO;
+		break;
+	case AuraCUE::ADT_GPU:
+		return AuraCUE::RDT_GPU;
+		break;
+	case AuraCUE::ADT_SLI:
+		return AuraCUE::RDT_SLI;
+		break;
+	case AuraCUE::ADT_DESKTOP:
+		return AuraCUE::RDT_DESKTOP;
+		break;
+	case AuraCUE::ADT_MIC:
+		return AuraCUE::RDT_MIC;
+		break;
+	default:
+		return AuraCUE::RDT_INVALID;
+		break;
+	}
+}
+
+// Non exposed method
+// Returns RDT for CDT
+AuraCUE::RgbDeviceType GetCueDeviceRgbType(std::string input)
+{
+	if (input == "Keyboard")
+	{
+		return AuraCUE::RDT_KEYBOARD;
+	}
+	else if (input == "Mouse")
+	{
+		return AuraCUE::RDT_MOUSE;
+	}
+	else if (input == "Headset")
+	{
+		return AuraCUE::RDT_HEADSET;
+	}
+	else
+	{
+		return AuraCUE::RDT_INVALID;
+	}
+}
 
 // Fuck this method
-RogData::Enums::AuraDeviceType GetAuraDeviceType(std::wstring modelName)
+AuraCUE::AuraDeviceType GetAuraDeviceType(std::wstring modelName)
 {
 	std::transform(modelName.begin(), modelName.end(), modelName.begin(), ::tolower);
 	if (modelName.find(L"maximus")) 
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"crosshair"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"z270"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"h270"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"b250"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"x99"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"z170"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"x370"))
 	{
-		return RogData::Enums::ADT_MOBO;
+		return AuraCUE::ADT_MOBO;
 	}
 	else if (modelName.find(L"gtx"))
 	{
-		return RogData::Enums::ADT_GPU;
+		return AuraCUE::ADT_GPU;
 	}
 	else if (modelName.find(L"rx"))
 	{
-		return RogData::Enums::ADT_GPU;
+		return AuraCUE::ADT_GPU;
 	}
 	else if (modelName.find(L"sli"))
 	{
-		return RogData::Enums::ADT_SLI;
+		return AuraCUE::ADT_SLI;
 	}
 	else if (modelName.find(L"gr8"))
 	{
-		return RogData::Enums::ADT_DESKTOP;
+		return AuraCUE::ADT_DESKTOP;
 	}
 	else if (modelName.find(L"claymore"))
 	{
-		return RogData::Enums::ADT_KEYBOARD;
+		return AuraCUE::ADT_KEYBOARD;
 	}
 	else if (modelName.find(L"spatha"))
 	{
-		return RogData::Enums::ADT_MOUSE;
+		return AuraCUE::ADT_MOUSE;
 	}
 	else if (modelName.find(L"gladius"))
 	{
-		return RogData::Enums::ADT_MOUSE;
+		return AuraCUE::ADT_MOUSE;
 	}
 	else if (modelName.find(L"evolve"))
 	{
-		return RogData::Enums::ADT_MOUSE;
+		return AuraCUE::ADT_MOUSE;
 	}
 	else if (modelName.find(L"impact"))
 	{
-		return RogData::Enums::ADT_MOUSE;
+		return AuraCUE::ADT_MOUSE;
 	}
 	else if (modelName.find(L"magnus"))
 	{
-		return RogData::Enums::ADT_MIC;
+		return AuraCUE::ADT_MIC;
 	}
 	else
 	{
-		return RogData::Enums::ADT_INVALID;
+		return AuraCUE::ADT_INVALID;
 	}
 }
 
@@ -460,4 +565,12 @@ std::string GetCueError(CorsairError err)
 		return "Unknown error";
 		break;
 	}
+}
+
+// Non exposed function
+// Converts std::string to std::wstring for normalising of RGB enabled devices
+std::wstring StringToWstring(std::string input)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	return converter.from_bytes(input);
 }
