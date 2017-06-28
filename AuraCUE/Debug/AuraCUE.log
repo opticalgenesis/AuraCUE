@@ -1,10 +1,3 @@
-﻿  stdafx.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(24): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
-  AuraCUE.cpp
-  RogAuraService.cpp
-  Generating Code...
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.cpp(200): warning C4715: 'AuraCUE::Functions::GetAuraDevice': not all control paths return a value
-  dllmain.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue\auracue\auracue.h(24): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
-  AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
-  AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)
+﻿  AuraCUE.cpp
+  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.dll
+  AuraCUE.vcxproj -> C:\Users\jfelt\documents\visual studio 2017\Projects\AuraCUE\Debug\AuraCUE.pdb (Partial PDB)

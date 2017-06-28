@@ -25,6 +25,7 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 		{
 			// Error thrown and bool remains/reset to false
 			bIsCueInitialized = false;
+			std::cout << GetCueError(CorsairGetLastError()) << std::endl;
 		}
 		else
 		{
