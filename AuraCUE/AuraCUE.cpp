@@ -36,15 +36,20 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 
 	if (bShouldUseAura)
 	{
+		// Gets wstring of all Aura model names
 		std::vector<std::wstring> auraDevices;
 		RogAuraService::Instance()->QueryDeviceNames(auraDevices);
 		int numberOfAuraDevices = auraDevices.size();
+
+		// No Aura devices found, skips init
 		if (numberOfAuraDevices < 1)
 		{
 			std::cout << "No Aura devices detected, not initialising.\n";
 		}
+		// Aura devices found, initialising
 		else
 		{
+			// Determines whether or not LEDs are on
 			bool bAuraLedsAreOn = RogAuraService::Instance()->QuerySwitchState();
 			if (bAuraLedsAreOn)
 			{
@@ -52,6 +57,7 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 			}
 			else
 			{
+				// LEDs must be on
 				RogAuraService::Instance()->SetSwitchState(true);
 				do
 				{
@@ -63,12 +69,14 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 		}
 	}
 
+	// Checks if the specified SDKs were initialised
 	if (bIsCueInitialized == bShouldUseCorsair && bIsAuraInitialized == bShouldUseAura)
 	{
 		bIsSdkInitialized = true;
 	}
 }
 
+// TODO -- 28/06/2017 -- This doesn't seem to work
 AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExclusive)
 {
 	if (bIsSdkInitialized)
@@ -120,24 +128,13 @@ AURACUE_API int AuraCUE::Functions::NumberOfRgbDevices(bool bShouldPrintToConsol
 {
 	if (bIsSdkInitialized)
 	{
-		int numberOfDevices = 0;
-		int numberOfAuraDevices = 0;
-		int numberOfCueDevices = 0;
-
-		if (bShouldPrintToConsole)
-		{
-			std::cout << "Number of AURA devices: " << numberOfAuraDevices << std::endl
-				<< "Number of CUE devices: " << numberOfCueDevices << std::endl;
-		}
-		return numberOfDevices;
-	}
-	else
-	{
-		std::cerr << "Initialize() MUST be run for SDK operations to proceed.\n";
+		return GetNormalizedDevices().size();
 	}
 	return 0;
 }
 
+// DEPRECATED
+// Returns a std::vector of connected CUE device models
 AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool bShouldPrintToConsole)
 {
 	std::vector<const char*> cueDevices;
@@ -151,6 +148,8 @@ AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool
 	return cueDevices;
 }
 
+
+// TODO -- 28/06/2017 -- Move to private function
 AURACUE_API AuraCUE::CueDevice AuraCUE::Functions::GetCueDevice(int deviceIndex)
 {
 	CueDevice device;
@@ -174,6 +173,9 @@ AURACUE_API std::vector<AuraCUE::CueDevice> AuraCUE::Functions::GetCueDevices()
 	return devices;
 }
 
+// DEPRECATED
+// Returns number of CUE enabled devices
+// Replace by GetCueDevices$size
 AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 {
 	if (bIsCueInitialized)
@@ -183,9 +185,11 @@ AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 	return 0;
 }
 
+// TODO -- 28/06/2017 -- Move to private function
 AURACUE_API AuraCUE::AuraDevice AuraCUE::Functions::GetAuraDevice(int deviceIndex)
 {
 	AuraCUE::AuraDevice device;
+	// Checks if dev has run Initialize()
 	if (bIsAuraInitialized)
 	{
 		std::vector<std::wstring> auraDevices;
