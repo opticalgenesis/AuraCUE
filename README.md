@@ -1,8 +1,9 @@
-﻿## AuraCUE - RGB SDKs Simplified ##
+## AuraCUE - RGB SDKs Simplified ##
 
 AuraCUE is a .dll extension, with accompanying .h and .lib files that aims to unify the two released RGB hardware SDKs for ASUS' Aura Sync; and Corsair's CUE.
 
 ** THIS PROJECT IS ON HOLD INDEFINITELY UNTIL I CAN GET HOLD OF SOME AURA GEAR TO TEST **
+** IF YOU HAVE SOME AURA GEAR AND WOULD BE INTERESTED IN HELPING ME DO PLEASE LET ME KNOW **
 
 **_Compile from source_**
 
