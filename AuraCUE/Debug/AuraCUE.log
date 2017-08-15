@@ -1,5 +1,4 @@
 ﻿  AuraCUE.cpp
-c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.cpp(232): warning C4018: '<': signed/unsigned mismatch
      Creating library C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.lib and object C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.exp
   AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.dll
   AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.pdb (Partial PDB)

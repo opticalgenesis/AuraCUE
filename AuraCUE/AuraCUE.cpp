@@ -4,6 +4,110 @@ bool bIsCueInitialized = false;
 bool bIsAuraInitialized = false;
 bool bIsDesiredSdkInitialized = false;
 
+
+
+AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura)
+{
+	if (bShouldUseCorsair && !bShouldUseExclusiveCueAccess)
+	{
+		CorsairPerformProtocolHandshake();
+		if (bShouldUseExclusiveCueAccess)
+		{
+			CorsairRequestControl(CAM_ExclusiveLightingControl);
+		}
+		bIsCueInitialized = true;
+	}
+
+	if (bShouldUseAura)
+	{
+		std::cout << "AuraSDK currently not supported";
+	}
+
+	// This is not currently representative
+	bIsDesiredSdkInitialized = true;
+}
+
+AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExclusive)
+{
+	if (bIsExclusive)
+	{
+		CorsairRequestControl(CAM_ExclusiveLightingControl);
+	}
+	else
+	{
+		CorsairReleaseControl(CAM_ExclusiveLightingControl);
+	}
+}
+
+AURACUE_API bool AuraCUE::Functions::IsSdkInitialized(bool bShouldPrintToConsole)
+{
+	if (bShouldPrintToConsole)
+	{
+		std::cout << "Aura SDK: " << bIsAuraInitialized << std::endl
+			<< "CUE SDK: " << bIsCueInitialized << std::endl << std::endl;
+		return bIsDesiredSdkInitialized;
+	}
+	else
+	{
+		return bIsDesiredSdkInitialized;
+	}
+}
+
+AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool bShouldPrintToConsole)
+{
+	std::vector<const char*> cueDevices;
+	int numberOfDevices = CorsairGetDeviceCount();
+	
+
+	for (int i = 0; i < numberOfDevices; i++)
+	{
+		const char* deviceModel = CorsairGetDeviceInfo(i)->model;
+		cueDevices.push_back(deviceModel);
+
+		if (bShouldPrintToConsole)
+		{
+			std::cout << "Device model: " << deviceModel << std::endl << std::endl;
+		}
+	}
+
+	return cueDevices;
+}
+
+AURACUE_API AuraCUE::CueDevice AuraCUE::Functions::GetCueDevice(int deviceIndex)
+{
+	CueDevice device;
+	device.deviceModel = GetCueDeviceModel(deviceIndex);
+	device.deviceType = GetCueDeviceType(deviceIndex);
+	device.capsMask = GetCueDeviceCapsMask(deviceIndex);
+	device.logicalLayout = GetCueDeviceLogicalLayout(deviceIndex);
+	device.physicalLayout = GetCueDevicePhysicalLayout(deviceIndex);
+	return device;
+}
+
+AURACUE_API std::vector<AuraCUE::CueDevice> AuraCUE::Functions::GetCueDevices()
+{
+	int numberOfDevices = CorsairGetDeviceCount();
+	std::vector<AuraCUE::CueDevice> devices;
+
+	for (int i = 0; i < numberOfDevices; i++)
+	{
+		devices.push_back(GetCueDevice(i));
+	}
+
+	return devices;
+}
+
+AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
+{
+	return CorsairGetDeviceCount();
+}
+
+std::string GetCueDeviceModel(int deviceIndex)
+{
+	const char* model = CorsairGetDeviceInfo(deviceIndex)->model;
+	return std::string(model);
+}
+
 // Non exposed function
 // Returns CUE Device type
 std::string GetCueDeviceType(int deviceIndex)
@@ -174,71 +278,4 @@ std::string GetCueError(CorsairError err)
 		return "Unknown error";
 		break;
 	}
-}
-
-AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura)
-{
-	if (bShouldUseCorsair && !bShouldUseExclusiveCueAccess)
-	{
-		CorsairPerformProtocolHandshake();
-		if (bShouldUseExclusiveCueAccess)
-		{
-			CorsairRequestControl(CAM_ExclusiveLightingControl);
-		}
-		bIsCueInitialized = true;
-	}
-
-	if (bShouldUseAura)
-	{
-		std::cout << "AuraSDK currently not supported";
-	}
-
-	// This is not currently representative
-	bIsDesiredSdkInitialized = true;
-}
-
-AURACUE_API void AuraCUE::Functions::CorsairShouldUseExclusiveAccess(bool bIsExclusive)
-{
-	if (bIsExclusive)
-	{
-		CorsairRequestControl(CAM_ExclusiveLightingControl);
-	}
-	else
-	{
-		CorsairReleaseControl(CAM_ExclusiveLightingControl);
-	}
-}
-
-AURACUE_API bool AuraCUE::Functions::IsSdkInitialized(bool bShouldPrintToConsole)
-{
-	if (bShouldPrintToConsole)
-	{
-		std::cout << "Aura SDK: " << bIsAuraInitialized << std::endl
-			<< "CUE SDK: " << bIsCueInitialized << std::endl << std::endl;
-		return bIsDesiredSdkInitialized;
-	}
-	else
-	{
-		return bIsDesiredSdkInitialized;
-	}
-}
-
-AURACUE_API std::vector<const char*> AuraCUE::Functions::GetCueDeviceModels(bool bShouldPrintToConsole)
-{
-	std::vector<const char*> cueDevices;
-	int numberOfDevices = CorsairGetDeviceCount();
-	
-
-	for (size_t i = 0; i < numberOfDevices; i++)
-	{
-		const char* deviceModel = CorsairGetDeviceInfo(i)->model;
-		cueDevices.push_back(deviceModel);
-
-		if (bShouldPrintToConsole)
-		{
-			std::cout << "Device model: " << deviceModel << std::endl << std::endl;
-		}
-	}
-
-	return cueDevices;
 }
