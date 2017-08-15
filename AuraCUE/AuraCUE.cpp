@@ -4,7 +4,9 @@ bool bIsCueInitialized = false;
 bool bIsAuraInitialized = false;
 bool bIsDesiredSdkInitialized = false;
 
-
+EnumerateMbControllerFunc EnumerateMbController;
+SetMbModeFunc SetMbMode;
+GetMbLedCountFunc GetMbLedCount;
 
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura)
 {
@@ -93,13 +95,22 @@ AURACUE_API std::vector<AuraCUE::CueDevice> AuraCUE::Functions::GetCueDevices()
 	{
 		devices.push_back(GetCueDevice(i));
 	}
-
 	return devices;
 }
 
 AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 {
 	return CorsairGetDeviceCount();
+}
+
+AURACUE_API void AuraCUE::Functions::GetAuraMbLeds()
+{
+	DWORD mbCount = EnumerateMbController(NULL, 0);
+	MbLightControl* mbLightController = new MbLightControl[mbCount];
+	SetMbMode(mbLightController[0], 1);
+
+	DWORD mbLedCount = GetMbLedCount(mbLightController);
+	std::cout << "Number of motherboard LEDs: " << mbLedCount << std::endl;
 }
 
 std::string GetCueDeviceModel(int deviceIndex)

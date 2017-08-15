@@ -96,5 +96,7 @@ namespace AuraCUE
 		AURACUE_API std::vector<AuraDevice> GetAuraDevices();
 		// Normalises all RGB Devices
 		AURACUE_API std::vector<RgbDevice> GetNormalizedDevices();
+
+		AURACUE_API void GetAuraMbLeds();
 	};
 }
