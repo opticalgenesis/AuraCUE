@@ -7,8 +7,6 @@
 #endif
 
 
-// Must be here, for some reason
-#include "RogAuraService.h"
 #include <vector>
 
 
@@ -76,7 +74,7 @@ namespace AuraCUE
 	{
 	public:
 		// Initialises RGB APIs
-		AURACUE_API void Initialize(bool bShouldUseCorsair, bool bShouldUseAura);
+		AURACUE_API void Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura);
 		// Enables/Disables Exclusive SDK Access To The CUE SDK
 		AURACUE_API void CorsairShouldUseExclusiveAccess(bool bIsExclusive);
 		// Checks To See If Both SDKs Have Been Initialised Successfully

@@ -20,7 +20,6 @@
 #include <exception>
 #include <stdexcept>
 #include <CUESDKGlobal.h>
-#include <RogAuraService.h>
 #include <CorsairLedIdEnum.h>
 
 
