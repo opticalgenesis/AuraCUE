@@ -92,7 +92,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>"C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\RGB SDKs\CUESDK_2013.lib";%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\RGB SDKs\CUESDK_2013.lib";"C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE\RGB SDKs\AURA_SDK.lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
