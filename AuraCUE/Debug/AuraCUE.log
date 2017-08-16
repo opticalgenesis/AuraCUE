@@ -6,8 +6,14 @@ c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\au
 c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(63): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
 c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(70): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::RgbDevice' when no variable is declared
   AuraCUE.cpp
-  Skipping... (no relevant changes detected)
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.cpp(124): warning C4700: uninitialized local variable 'KeyboardLightControl' used
   dllmain.cpp
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(27): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::AuraDeviceType' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(40): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::RgbDeviceType' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(46): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::RgbDeviceBrand' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(53): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::AuraDevice' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(63): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::CueDevice' when no variable is declared
+c:\users\jfelt\documents\visual studio 2017\projects\auracue_refactor\auracue\auracue.h(70): warning C4091: '__declspec(dllexport)': ignored on left of 'AuraCUE::RgbDevice' when no variable is declared
      Creating library C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.lib and object C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.exp
   AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.dll
   AuraCUE.vcxproj -> C:\Users\jfelt\Documents\Visual Studio 2017\Projects\AuraCUE_Refactor\Debug\AuraCUE.pdb (Partial PDB)

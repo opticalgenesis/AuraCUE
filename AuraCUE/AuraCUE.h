@@ -90,13 +90,11 @@ namespace AuraCUE
 		AURACUE_API std::vector<CueDevice> GetCueDevices();
 		// Returns Number of CUE Devices connected
 		AURACUE_API int GetNumberOfCueDevices();
-		// Returns Connected Aura Sync Device at index
-		AURACUE_API AuraDevice GetAuraDevice(int deviceIndex);
-		// Returns All Connected Aura Sync Devices
-		AURACUE_API std::vector<AuraDevice> GetAuraDevices();
-		// Normalises all RGB Devices
-		AURACUE_API std::vector<RgbDevice> GetNormalizedDevices();
 
-		AURACUE_API void GetAuraMbLeds();
+		// TESTING attempts to print number of motherboard LEDs
+		AURACUE_API void PrintAuraMbLeds();
+
+		// TESTING attempts to return number of keyboard LEDs
+		AURACUE_API void PrintAuraKbLeds();
 	};
 }

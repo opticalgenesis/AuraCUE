@@ -4,9 +4,14 @@ bool bIsCueInitialized = false;
 bool bIsAuraInitialized = false;
 bool bIsDesiredSdkInitialized = false;
 
+typedef void* MbLightControl;
 EnumerateMbControllerFunc EnumerateMbController;
 SetMbModeFunc SetMbMode;
 GetMbLedCountFunc GetMbLedCount;
+
+typedef void* ClaymoreKeyboardLightControl;
+CreateClaymoreKeyboardFunc CreateClaymoreKeyboard;
+GetClaymoreKeyboardLedCountFunc GetClaymoreKeyboardLedCount;
 
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura)
 {
@@ -103,7 +108,7 @@ AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 	return CorsairGetDeviceCount();
 }
 
-AURACUE_API void AuraCUE::Functions::GetAuraMbLeds()
+AURACUE_API void AuraCUE::Functions::PrintAuraMbLeds()
 {
 	DWORD mbCount = EnumerateMbController(NULL, 0);
 	MbLightControl* mbLightController = new MbLightControl[mbCount];
@@ -111,6 +116,22 @@ AURACUE_API void AuraCUE::Functions::GetAuraMbLeds()
 
 	DWORD mbLedCount = GetMbLedCount(mbLightController);
 	std::cout << "Number of motherboard LEDs: " << mbLedCount << std::endl;
+}
+
+AURACUE_API void AuraCUE::Functions::PrintAuraKbLeds()
+{
+	ClaymoreKeyboardLightControl* KeyboardLightControl;
+	DWORD Create = CreateClaymoreKeyboard(KeyboardLightControl);
+
+	if (Create > 0)
+	{
+		DWORD claymoreLedCount = GetClaymoreKeyboardLedCount(*KeyboardLightControl);
+		std::cout << "Number of Claymore LEDs: " << claymoreLedCount << std::endl;
+	}
+	else
+	{
+		delete KeyboardLightControl;
+	}
 }
 
 std::string GetCueDeviceModel(int deviceIndex)
