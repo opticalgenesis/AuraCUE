@@ -4,14 +4,28 @@ bool bIsCueInitialized = false;
 bool bIsAuraInitialized = false;
 bool bIsDesiredSdkInitialized = false;
 
-typedef void* MbLightControl;
+// Aura MB related declarations
+// NOT COMPLETE
 EnumerateMbControllerFunc EnumerateMbController;
 SetMbModeFunc SetMbMode;
 GetMbLedCountFunc GetMbLedCount;
 
-typedef void* ClaymoreKeyboardLightControl;
+// Claymore keyboard related declarations
+// NOT COMPLETE
 CreateClaymoreKeyboardFunc CreateClaymoreKeyboard;
 GetClaymoreKeyboardLedCountFunc GetClaymoreKeyboardLedCount;
+
+// Aura GPU related declarations
+// NOT COMPLETE
+EnumerateGPUFunc EnumerateGpu;
+GetGPULedCountFunc GetGpuLedCount;
+
+// ROG mouse related functions
+// NOT COMPLETE
+CreateRogMouseFunc CreateRogMouse;
+RogMouseLedCountFunc GetRogMouseLedCount;
+
+void InitializeAura();
 
 AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bShouldUseExclusiveCueAccess, bool bShouldUseAura)
 {
@@ -27,7 +41,8 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 
 	if (bShouldUseAura)
 	{
-		std::cout << "AuraSDK currently not supported";
+		InitializeAura();
+		std::cout << "AuraSDK currently experimental";
 	}
 
 	// This is not currently representative
@@ -110,17 +125,25 @@ AURACUE_API int AuraCUE::Functions::GetNumberOfCueDevices()
 
 AURACUE_API void AuraCUE::Functions::PrintAuraMbLeds()
 {
-	DWORD mbCount = EnumerateMbController(NULL, 0);
-	MbLightControl* mbLightController = new MbLightControl[mbCount];
-	SetMbMode(mbLightController[0], 1);
+	std::cout << bIsAuraInitialized << std::endl << std::endl;
+	if (bIsAuraInitialized)
+	{
+		DWORD mbCount = EnumerateMbController(NULL, 0);
+		MbLightControl* mbLightController = new MbLightControl[mbCount];
+		SetMbMode(mbLightController[0], 1);
 
-	DWORD mbLedCount = GetMbLedCount(mbLightController);
-	std::cout << "Number of motherboard LEDs: " << mbLedCount << std::endl;
+		DWORD mbLedCount = GetMbLedCount(mbLightController);
+		std::cout << "Number of motherboard LEDs: " << mbLedCount << std::endl;
+	}
+	else
+	{
+		std::cerr << "Aura SDK not initialised";
+	}
 }
 
 AURACUE_API void AuraCUE::Functions::PrintAuraKbLeds()
 {
-	ClaymoreKeyboardLightControl* KeyboardLightControl;
+	ClaymoreKeyboardLightControl* KeyboardLightControl = new ClaymoreKeyboardLightControl;
 	DWORD Create = CreateClaymoreKeyboard(KeyboardLightControl);
 
 	if (Create > 0)
@@ -132,6 +155,59 @@ AURACUE_API void AuraCUE::Functions::PrintAuraKbLeds()
 	{
 		delete KeyboardLightControl;
 	}
+}
+
+AURACUE_API void AuraCUE::Functions::PrintAuraGpuLeds()
+{
+	DWORD gpuCount = EnumerateGpu(NULL, 0);
+	if (gpuCount > 0)
+	{
+		GPULightControl* GpuLightControl = new GPULightControl[gpuCount];
+		EnumerateGpu(GpuLightControl, gpuCount);
+		DWORD ledCount = GetGpuLedCount(GpuLightControl);
+		std::cout << "Number of GPU LEDs: " << ledCount << std::endl;
+	}
+}
+
+AURACUE_API void AuraCUE::Functions::PrintRogMouseLeds()
+{
+	RogMouseLightControl* MouseLightControl = new RogMouseLightControl;
+	DWORD Create = CreateRogMouse(MouseLightControl);
+	if (Create > 0)
+	{
+		DWORD mouseLedCount = GetRogMouseLedCount(*MouseLightControl);
+		std::cout << "Number of mouse LEDs: " << mouseLedCount << std::endl;
+	}
+}
+
+AURACUE_API void AuraCUE::Functions::TestStringConversion()
+{
+	std::string testStr = "Hello, I'm a test string";
+	unsigned int m_dwIP;
+	std::istringstream ss(&testStr[2]);
+	ss >> std::hex >> m_dwIP;
+	std::cout << "Converted std::string to DWORD = " << m_dwIP << std::endl;
+}
+
+void InitializeAura()
+{
+	HINSTANCE auraLib;
+
+	auraLib = LoadLibraryA("AURA_SDK.dll");
+
+	if (auraLib == NULL)
+	{
+		bIsAuraInitialized = false;
+		std::cerr << "Failed to load Aura Sync Library";
+	}
+
+	(FARPROC&)EnumerateMbController = GetProcAddress(auraLib, "EnumerateMbController");
+	(FARPROC&)SetMbMode = GetProcAddress(auraLib, "SetMbMode");
+	
+	(FARPROC&)EnumerateGpu = GetProcAddress(auraLib, "EnumerateGpu");
+	(FARPROC&)GetGpuLedCount = GetProcAddress(auraLib, "GetGpuLedCount");
+
+	bIsAuraInitialized = true;
 }
 
 std::string GetCueDeviceModel(int deviceIndex)

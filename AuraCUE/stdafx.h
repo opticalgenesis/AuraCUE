@@ -15,6 +15,7 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <sstream>
 #include <algorithm>
 #include <atlbase.h>
 #include <exception>

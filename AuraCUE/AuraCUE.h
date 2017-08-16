@@ -96,5 +96,14 @@ namespace AuraCUE
 
 		// TESTING attempts to return number of keyboard LEDs
 		AURACUE_API void PrintAuraKbLeds();
+
+		// TESTING attempts to print number of GPU LEDs
+		AURACUE_API void PrintAuraGpuLeds();
+
+		// TESTING attempts to print number of ROG mouse LEDs
+		AURACUE_API void PrintRogMouseLeds();
+
+		// Just for me :)
+		AURACUE_API void TestStringConversion();
 	};
 }
