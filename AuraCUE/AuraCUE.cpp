@@ -4,6 +4,9 @@ bool bIsCueInitialized = false;
 bool bIsAuraInitialized = false;
 bool bIsDesiredSdkInitialized = false;
 
+// Enforces that DWORD = unsigned 32-bit integer
+using uint32 = DWORD;
+
 // Aura MB related declarations
 // NOT COMPLETE
 EnumerateMbControllerFunc EnumerateMbController;
@@ -43,6 +46,10 @@ AURACUE_API void AuraCUE::Functions::Initialize(bool bShouldUseCorsair, bool bSh
 	{
 		InitializeAura();
 		std::cout << "AuraSDK currently experimental";
+	}
+	else
+	{
+		return;
 	}
 
 	// This is not currently representative
@@ -128,11 +135,11 @@ AURACUE_API void AuraCUE::Functions::PrintAuraMbLeds()
 	std::cout << bIsAuraInitialized << std::endl << std::endl;
 	if (bIsAuraInitialized)
 	{
-		DWORD mbCount = EnumerateMbController(NULL, 0);
+		uint32 mbCount = EnumerateMbController(NULL, 0);
 		MbLightControl* mbLightController = new MbLightControl[mbCount];
 		SetMbMode(mbLightController[0], 1);
 
-		DWORD mbLedCount = GetMbLedCount(mbLightController);
+		uint32 mbLedCount = GetMbLedCount(mbLightController);
 		std::cout << "Number of motherboard LEDs: " << mbLedCount << std::endl;
 	}
 	else
